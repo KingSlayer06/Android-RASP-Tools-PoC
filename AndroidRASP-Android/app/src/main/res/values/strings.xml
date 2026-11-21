@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidRASP PoC</string>
+    <string name="heading">securevale Android RASP</string>
+    <string name="toggles_hint">Per-category toggles (used by runs 2 to 4). Runs 1, 5, 6, 7 use fixed configs.</string>
+    <string name="check_emulator">checkEmulator</string>
+    <string name="check_debugger">checkDebugger</string>
+    <string name="check_root">checkRoot</string>
+    <string name="run">Run all checks</string>
+    <string name="grant_phone">Grant READ_PHONE_STATE (advanced emulator checks)</string>
+    <string name="running">Running checks…</string>
+</resources>

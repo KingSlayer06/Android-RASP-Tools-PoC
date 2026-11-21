@@ -1,0 +1,7 @@
+[versions]
+agp = "9.4.0"
+talsecPlugin = "1.1.0"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+talsec-plugin = { id = "app.talsec.plugin", version.ref = "talsecPlugin" }

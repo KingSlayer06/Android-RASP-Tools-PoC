@@ -1,0 +1,9 @@
+{
+  "shellPkgName": "com.kingslayer06.dpt_shell_android.shell",
+  "signature": {
+    "keystore": "/Users/himanshu/.android/debug.keystore",
+    "alias": "androiddebugkey",
+    "storepass": "android",
+    "keypass": "android"
+  }
+}

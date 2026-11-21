@@ -1,0 +1,61 @@
+# ---- Gradle / build output ----
+.gradle/
+build/
+**/build/
+.kotlin/
+.externalNativeBuild/
+.cxx/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+output-metadata.json
+
+# Keep the Gradle wrapper (it is source, not build output)
+!gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# ---- Local machine config ----
+local.properties
+
+# ---- IDE (Android Studio / IntelliJ) ----
+*.iml
+.idea/
+*.ipr
+*.iws
+.navigation/
+
+# ---- OS / editor junk ----
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ---- Signing material and secrets ----
+*.jks
+*.keystore
+*.p12
+*.pk8
+*.pem
+keystore.properties
+signing.properties
+# Release protect-config for dpt-shell holds the release keystore password.
+# (protect-config.debug.json only points at the public Android debug key, so it is kept.)
+protect-config.json
+**/protect-config.release.json
+
+# ---- Logs ----
+*.log
+
+# ---- dpt-shell: downloaded / generated artifacts ----
+# Release zip and packer jar are downloaded; dpt.jar is rebuilt by build-patched-dpt.sh
+DptShell-Android/packer/dpt-release.zip
+DptShell-Android/packer/executable/dpt.jar
+DptShell-Android/packer/executable/*.bak
+DptShell-Android/packer/executable/shell-files/
+# Upstream dpt-shell source cloned and patched by build-patched-dpt.sh (has its own .git)
+DptShell-Android/dpt-src/
+# Shielded APKs and per-config pack logs produced by run-dpt-pack.sh / pack-vs.sh
+DptShell-Android/shielded/
+DptShell-Android/out/

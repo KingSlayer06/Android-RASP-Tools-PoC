@@ -1,0 +1,27 @@
+# App run (debug APK, emulator-5554 Pixel_9 API 37 arm64). Profiles 2 and 3 triggered by tapping their buttons.
+11-21 11:24:01.336 I/MobShieldPoC( 9409): MobShield native version=0.1.0 buildId=library-stub selfCheck=1297303620
+11-21 11:24:01.345 I/MobShieldPoC( 9409): === Profile: All modules, defaults
+11-21 11:24:01.388 I/MobShieldPoC( 9409): modules=[hooks, debug, integrity, mobshield-detect-root, environment] detectOnly=true termination=NONE intervalSec=null tuning=[]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): THREAT HOOK_FRAMEWORK CRITICAL score=72 signals=[common.hook.prologue]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): THREAT DEBUGGER CRITICAL score=68 signals=[android.debug.ptrace]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): THREAT EMULATOR HIGH score=26 signals=[android.env.qemu_props, android.env.build_fingerprint]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): THREAT ADB_ENABLED INFO score=12 signals=[android.adb.enabled]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): THREAT UNOFFICIAL_STORE MEDIUM score=11 signals=[android.store.installer]
+11-21 11:24:11.573 I/MobShieldPoC( 9409): SCAN FINISHED: 5 threat(s), risk=NONE, running=false
+11-21 11:24:26.222 I/MobShieldPoC( 9409): === Profile: Root + hooks only
+11-21 11:24:26.244 I/MobShieldPoC( 9409): modules=[hooks, mobshield-detect-root] detectOnly=true termination=NONE intervalSec=null tuning=[]
+11-21 11:24:27.060 I/MobShieldPoC( 9409): THREAT HOOK_FRAMEWORK CRITICAL score=72 signals=[common.hook.prologue]
+11-21 11:24:27.062 I/MobShieldPoC( 9409): SCAN FINISHED: 1 threat(s), risk=NONE, running=false
+11-21 11:24:37.906 I/MobShieldPoC( 9409): === Profile: Debugger + environment, tuned
+11-21 11:24:37.913 I/MobShieldPoC( 9409): modules=[debug, environment] detectOnly=true termination=NONE intervalSec=15 tuning=[android.debug.app_debuggable, android.env.qemu_props]
+11-21 11:24:37.972 I/MobShieldPoC( 9409): THREAT EMULATOR CRITICAL score=100 signals=[android.env.qemu_props, android.env.build_fingerprint]
+11-21 11:24:37.972 I/MobShieldPoC( 9409): THREAT DEBUGGER CRITICAL score=68 signals=[android.debug.ptrace]
+11-21 11:24:37.972 I/MobShieldPoC( 9409): SCAN FINISHED: 2 threat(s), risk=NONE, running=false
+11-21 11:24:52.981 I/MobShieldPoC( 9409): THREAT EMULATOR CRITICAL score=100 signals=[android.env.qemu_props, android.env.build_fingerprint]
+11-21 11:24:52.982 I/MobShieldPoC( 9409): THREAT DEBUGGER CRITICAL score=68 signals=[android.debug.ptrace]
+11-21 11:24:52.982 I/MobShieldPoC( 9409): SCAN FINISHED: 2 threat(s), risk=HIGH, running=true
+
+# Instrumented test run (connectedDebugAndroidTest, 11:16, emulator-5554 Pixel_9 API 37 arm64):
+11-21 11:16:10.596 I/MobShieldPoC( 7480): test ALL_DEFAULTS -> [HOOK_FRAMEWORK:72:[common.hook.prologue], DEBUGGER:68:[android.debug.ptrace], EMULATOR:26:[android.env.qemu_props, android.env.build_fingerprint], ADB_ENABLED:12:[android.adb.enabled], UNOFFICIAL_STORE:11:[android.store.installer]]
+11-21 11:16:10.787 I/MobShieldPoC( 7480): test ROOT_AND_HOOKS -> [HOOK_FRAMEWORK:72:[common.hook.prologue]]
+11-21 11:16:10.799 I/MobShieldPoC( 7480): test TUNED_DEBUG_ENV -> [EMULATOR:100:[android.env.qemu_props, android.env.build_fingerprint], DEBUGGER:68:[android.debug.ptrace]]

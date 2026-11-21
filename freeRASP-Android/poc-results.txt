@@ -1,0 +1,104 @@
+freeRASP-Android PoC results - 2026-11-21
+Device: emulator-5554, AVD Pixel_9, model sdk_gphone16k_arm64, Android 17 (API 37), arm64-v8a, google_apis_playstore_ps16k image
+Build: ./gradlew :app:assembleDebug :app:assembleRelease -> BUILD SUCCESSFUL (2m46s), JDK = Android Studio JBR, Talsec license status ALLOWED
+Project changes: local.properties (sdk.dir) added, gradlew made executable. No source/Gradle changes.
+
+===== DEBUG (prod=false) - adb logcat -d -s freeRASP-PoC, 60 s after launch at ~11:12:00 =====
+--------- beginning of main
+11-21 11:12:15.715 I/freeRASP-PoC( 4225): +0ms  Talsec.start  (prod=false, certHash=w9/dzcJZjuk5wvQYeeMU1psed/amQWbUdYO5wpxhfug=)
+11-21 11:12:41.283 I/freeRASP-PoC( 4225): +25568ms  onCriticalChecksFinished
+11-21 11:12:41.387 I/freeRASP-PoC( 4225): +25673ms  onSecureHardwareNotAvailable
+11-21 11:12:41.856 I/freeRASP-PoC( 4225): +26136ms  onPasscode
+11-21 11:12:50.450 I/freeRASP-PoC( 4225): +34731ms  onFastChecksFinished
+
+Crash grep (debug): no FATAL EXCEPTION / Fatal signal for com.poc.freerasp; process alive (pid 4225) after 60 s.
+Note: debug screenshot shows a 'Process system isn't responding' dialog - system_server ANR on the freshly cold-booted emulator, not the app.
+
+===== RELEASE (prod=true, R8 minified) - first attempt =====
+Capture empty: logcat buffer was cleared at 11:15:46 by another session sharing this emulator. App alive (pid 5981), no crash.
+
+===== RELEASE (prod=true) - re-run with streaming logcat -s freeRASP-PoC, launched 11:16:21, 60 s =====
+--------- beginning of main
+11-21 11:16:22.157 I/freeRASP-PoC( 7748): +1ms  Talsec.start  (prod=true, certHash=w9/dzcJZjuk5wvQYeeMU1psed/amQWbUdYO5wpxhfug=)
+11-21 11:16:24.048 I/freeRASP-PoC( 7748): +1892ms  onUnofficialStore
+11-21 11:16:24.808 I/freeRASP-PoC( 7748): +2651ms  onSimulator
+11-21 11:16:25.797 I/freeRASP-PoC( 7748): +3641ms  onCriticalChecksFinished
+11-21 11:16:25.809 I/freeRASP-PoC( 7748): +3653ms  onSecureHardwareNotAvailable
+11-21 11:16:25.809 I/freeRASP-PoC( 7748): +3653ms  onPasscode
+11-21 11:16:26.395 I/freeRASP-PoC( 7748): +4238ms  onDeviceBinding
+11-21 11:16:27.211 I/freeRASP-PoC( 7748): +5055ms  onAdbEnabled
+11-21 11:16:27.332 I/freeRASP-PoC( 7748): +5175ms  onFastChecksFinished
+
+Crash/system stream (release):
+--------- beginning of system
+11-21 11:16:21.978 I/ActivityManager(  644): Start proc 7748:com.poc.freerasp/u0a239 for next-top-activity {com.poc.freerasp/com.poc.freerasp.MainActivity}
+11-21 11:16:28.093 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:28.115 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:28.326 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:28.498 I/ActivityManager(  644): Force stopping com.poc.androidrasp appid=10242 user=0: from pid 7994
+11-21 11:16:28.501 I/ActivityManager(  644): Killing 7620:com.poc.androidrasp/u0a242 (adj 700): stop com.poc.androidrasp due to from pid 7994
+11-21 11:16:28.556 I/ActivityManager(  644): Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10164; uidState: BFGS; uidBFSL: [BFSL]; BFGS denied: false; intent: Intent { xflg=0x4 cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; allowWiu:58; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null; isBindService:false]
+11-21 11:16:28.560 W/ActivityManager(  644): setHasOverlayUi called on unknown pid: 7620
+11-21 11:16:28.712 I/ActivityManager(  644): Force stopping com.poc.mobshield appid=10246 user=0: start instr
+11-21 11:16:28.734 I/ActivityManager(  644): Start proc 8006:com.poc.mobshield/u0a246 for added application com.poc.mobshield
+11-21 11:16:29.766 I/ActivityManager(  644): Force stopping com.poc.mobshield appid=10246 user=0: finished inst
+11-21 11:16:29.767 E/ActivityManager(  644): Unable to freeze binder for 8006: -11
+11-21 11:16:29.769 I/ActivityManager(  644): Killing 8006:com.poc.mobshield/u0a246 (adj 0): stop com.poc.mobshield due to finished inst
+11-21 11:16:29.925 I/ActivityManager(  644): Force stopping com.poc.mobshield appid=10246 user=-1: deletePackageX
+11-21 11:16:29.948 I/ActivityManager(  644): Force stopping com.poc.mobshield appid=10246 user=0: pkg removed
+11-21 11:16:30.055 I/ActivityManager(  644): Force stopping com.poc.mobshield.test appid=10247 user=-1: deletePackageX
+11-21 11:16:30.150 I/ActivityManager(  644): Force stopping com.poc.mobshield.test appid=10247 user=0: pkg removed
+11-21 11:16:30.226 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:30.391 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:30.401 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: -1, SourcePkg: null, TargetUid: 10161, TargetPkg: com.google.android.settings.intelligence
+11-21 11:16:30.401 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: -1, SourcePkg: null, TargetUid: 10161, TargetPkg: com.google.android.settings.intelligence
+11-21 11:16:30.444 W/ActivityManager(  644): pid 6826 com.google.android.settings.intelligence sent binder code 6 with flags 2 and got error -74
+11-21 11:16:30.465 W/ActivityManager(  644): Unable to start service Intent { act=com.google.android.gms.home.wifipresence.service.START xflg=0x4 pkg=com.google.android.gms } U=0: not found
+11-21 11:16:30.465 W/ActivityManager(  644): Unbind failed: could not find connection for android.os.BinderProxy@f88096
+11-21 11:16:30.471 W/ActivityManager(  644): Unable to start service Intent { act=com.google.android.gms.home.wifipresence.service.START xflg=0x4 pkg=com.google.android.gms } U=0: not found
+11-21 11:16:30.471 W/ActivityManager(  644): Unbind failed: could not find connection for android.os.BinderProxy@e6339ed
+11-21 11:16:31.698 I/ActivityManager(  644): Start proc 8094:com.poc.androidrasp/u0a242 for next-top-activity {com.poc.androidrasp/com.poc.androidrasp.MainActivity}
+11-21 11:16:31.848 W/ActivityManager(  644): Slow operation: 70ms so far, now at attachApplicationLocked: immediately after bindApplication
+11-21 11:16:31.848 W/ActivityManager(  644): Slow operation: 70ms so far, now at attachApplicationLocked: after updateLruProcessLocked
+11-21 11:16:31.849 W/ActivityManager(  644): Slow operation: 70ms so far, now at attachApplicationLocked: after updateOomAdjLocked
+11-21 11:16:38.803 W/ActivityManager(  644): Slow operation: 59ms so far, now at startProcess: asking zygote to start proc
+11-21 11:16:39.032 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:39.104 W/ActivityManager(  644): Slow operation: 359ms so far, now at startProcess: returned from zygote!
+11-21 11:16:39.229 W/ActivityManager(  644): Slow operation: 485ms so far, now at startProcess: done updating battery stats
+11-21 11:16:39.229 W/ActivityManager(  644): Slow operation: 485ms so far, now at startProcess: building log message
+11-21 11:16:39.229 I/ActivityManager(  644): Start proc 8195:com.poc.mobshield/u0a248 for next-top-activity {com.poc.mobshield/com.poc.mobshield.MainActivity}
+11-21 11:16:39.229 W/ActivityManager(  644): Slow operation: 485ms so far, now at startProcess: starting to update pids map
+11-21 11:16:39.242 W/ActivityManager(  644): Slow operation: 497ms so far, now at startProcess: done updating pids map
+11-21 11:16:39.364 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:39.491 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:39.552 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:39.623 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:39.667 I/ActivityManager(  644): Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10164; uidState: BFGS; uidBFSL: [BFSL]; BFGS denied: false; intent: Intent { xflg=0x4 cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; allowWiu:58; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null; isBindService:false]
+11-21 11:16:39.739 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:50.329 I/ActivityManager(  644): Force stopping com.poc.androidrasp appid=10242 user=-1: deletePackageX
+11-21 11:16:50.332 I/ActivityManager(  644): Killing 8094:com.poc.androidrasp/u0a242 (adj 700): stop com.poc.androidrasp due to deletePackageX
+11-21 11:16:50.443 W/ActivityManager(  644): setHasOverlayUi called on unknown pid: 8094
+11-21 11:16:50.459 I/ActivityManager(  644): Force stopping com.poc.androidrasp appid=10242 user=0: pkg removed
+11-21 11:16:50.717 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:50.727 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:50.751 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:51.275 I/ActivityManager(  644): Force stopping com.poc.androidrasp appid=10249 user=0: from pid 8329
+11-21 11:16:51.317 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:51.467 W/ActivityManager(  644): Skipping manifest association check for null package. SourceUid: 10217, SourcePkg: null, TargetUid: 10217, TargetPkg: com.google.android.gms
+11-21 11:16:51.750 I/ActivityManager(  644): Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10164; uidState: BFGS; uidBFSL: [BFSL]; BFGS denied: false; intent: Intent { xflg=0x4 cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; allowWiu:58; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null; isBindService:false]
+11-21 11:16:54.551 W/ActivityManager(  644): Slow operation: 51ms so far, now at startProcess: returned from zygote!
+11-21 11:16:54.552 W/ActivityManager(  644): Slow operation: 51ms so far, now at startProcess: done updating battery stats
+11-21 11:16:54.552 W/ActivityManager(  644): Slow operation: 51ms so far, now at startProcess: building log message
+11-21 11:16:54.552 I/ActivityManager(  644): Start proc 8351:com.poc.androidrasp/u0a249 for next-top-activity {com.poc.androidrasp/com.poc.androidrasp.MainActivity}
+11-21 11:16:54.552 W/ActivityManager(  644): Slow operation: 51ms so far, now at startProcess: starting to update pids map
+11-21 11:16:54.555 W/ActivityManager(  644): Slow operation: 54ms so far, now at startProcess: done updating pids map
+11-21 11:16:54.773 W/ActivityManager(  644): Slow operation: 111ms so far, now at finishAttachApplicationInner: after mServices.attachApplicationLocked
+11-21 11:16:54.773 W/ActivityManager(  644): Slow operation: 111ms so far, now at finishAttachApplicationInner: after dispatching broadcasts
+11-21 11:17:05.794 I/ActivityManager(  644): Force stopping com.poc.androidrasp appid=10249 user=0: from pid 8464
+11-21 11:17:05.796 I/ActivityManager(  644): Killing 8351:com.poc.androidrasp/u0a249 (adj 200): stop com.poc.androidrasp due to from pid 8464
+11-21 11:17:05.849 W/ActivityManager(  644): setHasOverlayUi called on unknown pid: 8351
+11-21 11:17:05.911 W/ActivityManager(  644): pid 644 system sent binder code 7 with flags 1 and got error -32
+11-21 11:17:09.031 I/ActivityManager(  644): Start proc 8497:com.poc.androidrasp/u0a249 for next-top-activity {com.poc.androidrasp/com.poc.androidrasp.MainActivity}
+Result: no FATAL EXCEPTION / Fatal signal; process alive (pid 7748) after 60 s.
+
+onPostponedChecksFinished did not fire within 60 s in either variant.
